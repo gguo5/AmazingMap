@@ -13,16 +13,38 @@
         <script type="text/javascript">
             var map;
             var infoWindow;
+            
+            var MY_MAPTYPE_ID = 'grey_landscape_style';
 
             function initialize() {
                 var mapDiv = document.getElementById('map-canvas');
+                var featureOpts = [
+                    {
+                        "featureType": "landscape",
+                        "elementType": "geometry",
+                        "stylers": [
+                            { "hue": "#00ff3c" },
+                            { "color": "#808080" }
+                        ]
+                    }
+                ]  
+                
                 var mapOptions = {
-                    center: new google.maps.LatLng(58, 16),
+                    center: new google.maps.LatLng(58, 20),
                     disableDefaultUI: true,
-                    zoom: 5,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                    zoom: 2,
+                    mapTypeControlOptions: {
+                        mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+                    },
+                    mapTypeId: MY_MAPTYPE_ID
                 };
                 map = new google.maps.Map(mapDiv,mapOptions);
+                
+                var styledMapOptions = {
+                    name: 'Custom Grey Style'
+                };
+                var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);//styles, name
+                map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
  
                 infoWindow = new google.maps.InfoWindow({ maxWidth: 100});
       
