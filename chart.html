@@ -6,11 +6,14 @@
         <title>Google Visualization API Sample</title>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript">
             google.load('visualization', '1', {packages: ['geochart']});
             google.setOnLoadCallback(drawVisualization);
-            
+        
             function drawVisualization() {
+                $("#info").draggable();
+                
                 var data = google.visualization.arrayToDataTable([
                     ['Country', 'Time Visited'],
                     ['Australia', 1996],
@@ -21,13 +24,13 @@
     
                 var options = {};
                 options['backgroundColor']= '#96CBD7';//78cabf
-                var colorAxis =  {minValue: 1987, colors: ['#800080', '#00FF00','#FF0000','#FFFF00']};
+                var colorAxis =  {minValue: 1987, colors: ['#FF9933', '#66FF66','#0066FF','#CC0000','#996600']};
                 
                 options['colorAxis']= colorAxis;
                 options['datalessRegionColor']= 'silver';
                 
-                var legend = {numberFormat: '####', textStyle: {color: 'blue',fontName: 'Verdana', fontSize: 16}};
-                options['legend']= legend;
+                //var legend = {numberFormat: '####', textStyle: {color: 'blue',fontName: 'Verdana', fontSize: 16}};
+                options['legend']= 'none';//hide the colorAxis set to 'none'
                 
                 var tooltip = {textStyle: {color: '#008080'}, showColorCode: true};
                 options['tooltip']= tooltip;
