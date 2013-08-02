@@ -7,7 +7,8 @@
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript">
             google.load('visualization', '1', {packages: ['geochart']});
-
+            google.setOnLoadCallback(drawVisualization);
+            
             function drawVisualization() {
                 var data = google.visualization.arrayToDataTable([
                     ['Country', 'Time Visited'],
@@ -38,10 +39,69 @@
                 var geochart = new google.visualization.GeoChart(container);
                 
                 geochart.draw(data,options);
-            }
+                
+                google.visualization.events.addListener(geochart, 'select',myClickHandler);
+            
+            
+                function myClickHandler() {
+                    var selection = geochart.getSelection();
+        
+                    // if same city is clicked twice in a row
+                    // it is "unselected", and selection = []
+                    if(typeof selection[0] !== "undefined") {
+                        var country = data.getValue(selection[0].row, 0);
+                        var year = data.getValue(selection[0].row, 1);
+                        alert('Country is: ' + country+", and visited in "+year);
+                    }
+                }//end of my click handler
+            
+                function myClickHandler_all(){
+                    var selection = geochart.getSelection();
+                    var message = '';
+                    for (var i = 0; i < selection.length; i++) {
+                        var item = selection[i];
+                        if (item.row != null && item.column != null) {
+                            var str = data.getFormattedValue(item.row, item.column);
+                            message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+                        } else if (item.row != null) {
+                            var str = data.getFormattedValue(item.row, 0);
+                            message += '{row:' + item.row + ', (no column, showing first)} = ' + str + '\n';
+                        } else if (item.column != null) {
+                            var str = data.getFormattedValue(0, item.column);
+                            message += '{(no row, showing first), column:' + item.column + '} = ' + str + '\n';
+                        }
+                    }
+                    if (message == '') {
+                        message = 'nothing';
+                    }
+                    alert('You selected ' + message);
+                } //end of myhandlerall
+        
+    
+            }//end of draw chart
+            
+            /*     function myClickHandler(){
+                var selection = myVis.getSelection();
+
+
+                for (var i = 0; i < selection.length; i++) {
+                    var item = selection[i];
+                    if (item.row != null && item.column != null) {
+                        message += '{row:' + item.row + ',column:' + item.column + '}';
+                    } else if (item.row != null) {
+                        message += '{row:' + item.row + '}';
+                    } else if (item.column != null) {
+                        message += '{column:' + item.column + '}';
+                    }
+                }
+                if (message == '') {
+                    message = 'nothing';
+                }
+                alert('You selected ' + message);
+            }  */
     
 
-            google.setOnLoadCallback(drawVisualization);
+            
         </script>
     </head>
     <body style="font-family: Arial;border: 0 none; overflow: hidden">
