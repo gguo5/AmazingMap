@@ -11,14 +11,31 @@
             function drawVisualization() {
                 var data = google.visualization.arrayToDataTable([
                     ['Country', 'Time Visited'],
-                    ['Australia', 2010],
-                    ['China',1987]
+                    ['Australia', 1996],
+                    ['China',1987],
+                    ['Vietnam',2006],
+                    ['Cambodia',2016]
                 ]);
     
-                var options = {backgroundColor: '#96CBD7'};  //78cabf
-    
-                var geochart = new google.visualization.GeoChart(
-                document.getElementById('visualization'));
+                var options = {};
+                options['backgroundColor']= '#96CBD7';//78cabf
+                //options['backgroundColor.fill']='green';
+                //options['backgroundColor.stroke']='red';
+                var colorAxis =  {minValue: 1987, values: [1987,1997,2007,2017],  colors: ['#800080', '#00FF00','#FF0000','#FFFF00']};
+                
+                options['colorAxis']= colorAxis;
+                options['datalessRegionColor']= 'silver';
+                
+                var legend = {numberFormat: '####', textStyle: {color: 'blue',fontName: 'Verdana', fontSize: 16}};
+                options['legend']= legend;
+                
+                var tooltip = {textStyle: {color: '#008080'}, showColorCode: true};
+                options['tooltip']= tooltip;
+                
+                
+                var container = document.getElementById('visualization');
+                
+                var geochart = new google.visualization.GeoChart(container);
                 
                 geochart.draw(data,options);
             }
