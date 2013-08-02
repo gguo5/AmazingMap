@@ -5,6 +5,7 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>Google Visualization API Sample</title>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript">
             google.load('visualization', '1', {packages: ['geochart']});
             google.setOnLoadCallback(drawVisualization);
@@ -20,9 +21,7 @@
     
                 var options = {};
                 options['backgroundColor']= '#96CBD7';//78cabf
-                //options['backgroundColor.fill']='green';
-                //options['backgroundColor.stroke']='red';
-                var colorAxis =  {minValue: 1987, values: [1987,1997,2007,2017],  colors: ['#800080', '#00FF00','#FF0000','#FFFF00']};
+                var colorAxis =  {minValue: 1987, colors: ['#800080', '#00FF00','#FF0000','#FFFF00']};
                 
                 options['colorAxis']= colorAxis;
                 options['datalessRegionColor']= 'silver';
@@ -51,7 +50,9 @@
                     if(typeof selection[0] !== "undefined") {
                         var country = data.getValue(selection[0].row, 0);
                         var year = data.getValue(selection[0].row, 1);
-                        alert('Country is: ' + country+", and visited in "+year);
+                        //alert('Country is: ' + country+", and visited in "+year);
+                        $("#country").html(country);
+                        $("#year").html(year);
                     }
                 }//end of my click handler
             
@@ -79,32 +80,14 @@
         
     
             }//end of draw chart
-            
-            /*     function myClickHandler(){
-                var selection = myVis.getSelection();
-
-
-                for (var i = 0; i < selection.length; i++) {
-                    var item = selection[i];
-                    if (item.row != null && item.column != null) {
-                        message += '{row:' + item.row + ',column:' + item.column + '}';
-                    } else if (item.row != null) {
-                        message += '{row:' + item.row + '}';
-                    } else if (item.column != null) {
-                        message += '{column:' + item.column + '}';
-                    }
-                }
-                if (message == '') {
-                    message = 'nothing';
-                }
-                alert('You selected ' + message);
-            }  */
-    
-
-            
+                 
         </script>
     </head>
     <body style="font-family: Arial;border: 0 none; overflow: hidden">
         <div id="visualization" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;"></div>
+        <div id="info" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: gold">
+            <span id="country"></span><br />
+            <span id="year"></span>
+        </div>
     </body>
 </html>
