@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Google Visualization API Sample</title>
+        <title>Google Visualization</title>
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.min.js"></script>
@@ -16,10 +16,11 @@
                 
                 var data = google.visualization.arrayToDataTable([
                     ['Country', 'Time Visited'],
-                    ['Australia', 1996],
                     ['China',1987],
-                    ['Vietnam',2006],
-                    ['Cambodia',2016]
+                    ['Australia', 2010],
+                    ['Malaysia',2014],
+                    ['Vietnam',2014],
+                    ['Cambodia',2014]
                 ]);
     
                 var options = {};
@@ -59,7 +60,7 @@
                     }
                 }//end of my click handler
             
-                function myClickHandler_all(){
+              /*  function myClickHandler_all(){
                     var selection = geochart.getSelection();
                     var message = '';
                     for (var i = 0; i < selection.length; i++) {
@@ -80,6 +81,8 @@
                     }
                     alert('You selected ' + message);
                 } //end of myhandlerall
+                
+                */
         
     
             }//end of draw chart
