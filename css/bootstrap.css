@@ -6224,10 +6224,12 @@ html, body {
 	min-height: 100%;
 	height: auto ;
 	height: 100%;
-	margin: 0 auto -85px; /* the bottom margin is the negative value of the footer's height */
+	margin: 0 auto -35px; /* the bottom margin is the negative value of the footer's height */
 }
 .footer {
-	height: 55px;
+	height: 35px;
         margin-left: 30px;/* .push must be the same height as .footer */
+        z-index: 100;
+        position: relative;
 }
 

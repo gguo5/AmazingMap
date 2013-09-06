@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Google Visualization</title>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+        <!-- Le styles -->
+        <link href="css/bootstrap.css" rel="stylesheet">
+            <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+                <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+                <!--[if lt IE 9]>
+                  <script src="../assets/js/html5shiv.js"></script>
+                <![endif]-->
+
+                <script type="text/javascript">
+                    google.load('visualization', '1', {packages: ['geochart']});
+                    google.setOnLoadCallback(drawVisualization);
+        
+                    function drawVisualization() {
+                        $("#info").draggable();
+                
+                        var data = google.visualization.arrayToDataTable([
+                            ['Country', 'Time Visited'],
+                            ['China',1987],
+                            ['Australia', 2010],
+                            ['Malaysia',2014],
+                            ['Vietnam',2014],
+                            ['Cambodia',2014]
+                        ]);
+    
+                        var options = {};
+                        options['backgroundColor']= '#96CBD7';//78cabf
+                        var colorAxis =  {minValue: 1987, colors: ['#FF9933', '#66FF66','#0066FF','#CC0000','#996600']};
+                
+                        options['colorAxis']= colorAxis;
+                        options['datalessRegionColor']= 'silver';
+                
+                        //var legend = {numberFormat: '####', textStyle: {color: 'blue',fontName: 'Verdana', fontSize: 16}};
+                        options['legend']= 'none';//hide the colorAxis set to 'none'
+                
+                        var tooltip = {textStyle: {color: '#008080'}, showColorCode: true};
+                        options['tooltip']= tooltip;
+                
+                
+                        var container = document.getElementById('visualization');
+                
+                        var geochart = new google.visualization.GeoChart(container);
+                
+                        geochart.draw(data,options);
+                
+                        google.visualization.events.addListener(geochart, 'select',myClickHandler);
+            
+            
+                        function myClickHandler() {
+                            var selection = geochart.getSelection();
+        
+                            // if same city is clicked twice in a row
+                            // it is "unselected", and selection = []
+                            if(typeof selection[0] !== "undefined") {
+                                var country = data.getValue(selection[0].row, 0);
+                                var year = data.getValue(selection[0].row, 1);
+                                //alert('Country is: ' + country+", and visited in "+year);
+                                $("#country").html(country);
+                                $("#year").html(year);
+                            }
+                        }//end of my click handler
+            
+                        /*  function myClickHandler_all(){
+                            var selection = geochart.getSelection();
+                            var message = '';
+                            for (var i = 0; i < selection.length; i++) {
+                                var item = selection[i];
+                                if (item.row != null && item.column != null) {
+                                    var str = data.getFormattedValue(item.row, item.column);
+                                    message += '{row:' + item.row + ',column:' + item.column + '} = ' + str + '\n';
+                                } else if (item.row != null) {
+                                    var str = data.getFormattedValue(item.row, 0);
+                                    message += '{row:' + item.row + ', (no column, showing first)} = ' + str + '\n';
+                                } else if (item.column != null) {
+                                    var str = data.getFormattedValue(0, item.column);
+                                    message += '{(no row, showing first), column:' + item.column + '} = ' + str + '\n';
+                                }
+                            }
+                            if (message == '') {
+                                message = 'nothing';
+                            }
+                            alert('You selected ' + message);
+                        } //end of myhandlerall
+                
+                         */
+        
+    
+                    }//end of draw chart
+                 
+                </script>
+                </head>
+                <body style="border: 0 none; overflow: hidden">
+                    <div class="wrapper">
+
+                        <div class="navbar navbar-inverse navbar-fixed-top">
+                            <div class="navbar-inner">
+                                <div class="container">
+                                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <a class="brand" href="#">Amazing Map</a>
+                                    <div class="nav-collapse collapse">
+                                        <ul class="nav">
+                                            <li class="active"><a href="#">Home</a></li>
+                                            <li><a href="#about">About</a></li>
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create <b class="caret"></b></a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Add Countries</a></li>
+                                                    <li><a href="#">Export Map</a></li>
+                                                    <li class="divider"></li>
+                                                    <li class="nav-header">Nav header</li>
+                                                    <li><a href="#">Separated link</a></li>
+                                                    <li><a href="#">One more separated link</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <form class="navbar-form pull-right">
+                                            <input class="span2" type="text" placeholder="Email / Username">
+                                                <input class="span2" type="password" placeholder="Password">
+                                                    <button type="submit" class="btn">Sign in</button>
+                                                    </form>
+                                                    </div><!--/.nav-collapse -->
+                                                    </div>
+                                                    </div>
+                                                    </div>    
+                        <!--
+                                                    <div class="container">
+                                                       
+                                                        <div class="jumbotron"> 
+                                                            <h1>Fascinated?</h1>
+                                                            <p class="lead">Tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                                                            <a class="btn btn-large btn-success" href="#">Create your own Now!</a>
+                                                        </div> 
+                                                    </div>
+                        -->
+                        
+                                                    <div id="mapcontainer">
+                                                        <div id="visualization" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;"></div>
+                                                        <div id="info" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: gold">
+                                                            <span id="country"></span><br />
+                                                            <span id="year"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    </div>
+                                                    <div class="footer">
+                                                        <p class="muted credit">&copy; AmazingMap 2013</p>
+                                                    </div>
+                                                    <script src="js/bootstrap.min.js"></script>
+                                                    </body>
+                                                    </html>
