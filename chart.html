@@ -24,7 +24,7 @@
                     function drawVisualization() {
                         $("#info").draggable();
                 
-                        var data = google.visualization.arrayToDataTable([
+                           var data = google.visualization.arrayToDataTable([
                             ['Country', 'Time Visited'],
                             ['China',1987],
                             ['Australia', 2010],
@@ -32,6 +32,35 @@
                             ['Vietnam',2014],
                             ['Cambodia',2014]
                         ]);
+                                                            
+                          data.addRow(["France",2005]);
+                        //var data = new google.visualization.DataTable();
+                        //data.addColumn('string', 'Country');
+                        //data.addColumn('number', 'VY');
+                       
+                        
+                        /*   var testname = "";
+                        var testyear = 0;
+                        
+                           $.getJSON("countries.json", function(results) {
+                          var country = results.countries[0];
+                          testname = country.name;
+                          testyear = country.year;
+                          $("#test").html(testname+testyear);
+                          
+                           for (var i = 0; i < results.countries.length; i++) {                                 
+                                var country = results.countries[i];
+                                var name = country.name;
+                                var yearVisited = country.year;
+                                data.addRow([name, yearVisited]); 
+                                
+                            }
+                        });
+                         */
+                        
+                        
+                        
+                        
     
                         var options = {};
                         options['backgroundColor']= '#96CBD7';//78cabf
@@ -67,6 +96,7 @@
                                 //alert('Country is: ' + country+", and visited in "+year);
                                 $("#country").html(country);
                                 $("#year").html(year);
+                                $("#info").show();
                             }
                         }//end of my click handler
             
@@ -101,7 +131,7 @@
                 </head>
                 <body style="border: 0 none; overflow: hidden">
                     <div class="wrapper">
-
+                  <!--      <div id="test" style="height:100px; width: 100px; background-color: pink; position: relative; z-index: 10000; margin: 100px;">dfd</div>-->
                         <div class="navbar navbar-inverse navbar-fixed-top">
                             <div class="navbar-inner">
                                 <div class="container">
@@ -136,22 +166,24 @@
                                                     </div>
                                                     </div>
                                                     </div>    
-                        <!--
-                                                    <div class="container">
-                                                       
-                                                        <div class="jumbotron"> 
-                                                            <h1>Fascinated?</h1>
-                                                            <p class="lead">Tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                                                            <a class="btn btn-large btn-success" href="#">Create your own Now!</a>
-                                                        </div> 
-                                                    </div>
-                        -->
-                        
+                                                    <!--
+                                                                                <div class="container">
+                                                                                   
+                                                                                    <div class="jumbotron"> 
+                                                                                        <h1>Fascinated?</h1>
+                                                                                        <p class="lead">Tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                                                                                        <a class="btn btn-large btn-success" href="#">Create your own Now!</a>
+                                                                                    </div> 
+                                                                                </div>
+                                                    -->
+
                                                     <div id="mapcontainer">
                                                         <div id="visualization" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;"></div>
-                                                        <div id="info" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: gold">
+                                                        <div id="info" class="alert" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: #ff9999; display: none">
+                                                            <button class="close">&times;</button>
                                                             <span id="country"></span><br />
                                                             <span id="year"></span>
+                                                            
                                                         </div>
                                                     </div>
 

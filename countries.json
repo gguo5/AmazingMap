@@ -1,0 +1,13 @@
+ {  "type": "CountriesIveBeenTo",
+    "countries": [{
+    "name": "Australia",
+    "year": 2010
+  },
+  {
+    "name": "China",
+    "year": 1987  },
+  {
+    "name": "South Africa",
+    "year": 2020  }
+     ]
+ }
