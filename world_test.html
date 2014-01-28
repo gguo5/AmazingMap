@@ -1,0 +1,83 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+        <script type='text/javascript'>google.load('visualization', '1', {'packages': ['geochart']});
+            google.setOnLoadCallback(drawVisualization);
+
+            function drawVisualization() {var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'Country');
+                data.addColumn('number', 'Value'); 
+                data.addColumn({type:'string', role:'tooltip'});
+                var ivalue = new Array();
+
+                data.addRows([[{v:'US',f:'United States of America'},0,'21% of Visits']]);
+                ivalue['US'] = '';
+
+                data.addRows([[{v:'GB',f:'United Kingdom'},1,'7% of visits']]);
+                ivalue['GB'] = '';
+
+                data.addRows([[{v:'DE',f:'Germany'},2,'6% of visits']]);
+                ivalue['DE'] = '';
+
+                data.addRows([[{v:'FR',f:'France'},3,'5% of visits']]);
+                ivalue['FR'] = '';
+
+                data.addRows([[{v:'ES',f:'Spain'},4,'5% of visits']]);
+                ivalue['ES'] = '';
+
+                data.addRows([[{v:'CA',f:'Canada'},5,'4% of visits']]);
+                ivalue['CA'] = '';
+
+                data.addRows([[{v:'IT',f:'Italy'},6,'4% of visits']]);
+                ivalue['IT'] = '';
+
+                data.addRows([[{v:'NL',f:'The Netherlands'},7,'4% of visits']]);
+                ivalue['NL'] = '';
+
+                data.addRows([[{v:'BR',f:'Brazil'},8,'4% of visits']]);
+                ivalue['BR'] = '';
+
+                data.addRows([[{v:'TR',f:'Turkey'},9,'3% of visits']]);
+                ivalue['TR'] = '';
+
+                data.addRows([[{v:'IN',f:'India'},10,'3% of visits']]);
+                ivalue['IN'] = '';
+
+                data.addRows([[{v:'RU',f:'Russia'},11,'3% of visits']]);
+                ivalue['RU'] = '';
+
+                data.addRows([[{v:'AU',f:'Australia'},12,'2% of visits']]);
+                ivalue['AU'] = '';
+
+                var options = {
+                    backgroundColor: {fill:'#FFFFFF',stroke:'#FFFFFF' ,strokeWidth:0 },
+                    colorAxis:  {minValue: 0, maxValue: 12,  colors: ['#D95F0E','#FEC44F','#FEC44F','#FEC44F','#FEC44F','#FEC44F','#FEC44F','#FEC44F','#FEC44F','#FFF7BC','#FFF7BC','#FFF7BC','#FFF7BC',]},
+                    legend: 'none',	
+                    backgroundColor: {fill:'#FFFFFF',stroke:'#FFFFFF' ,strokeWidth:0 },	
+                    datalessRegionColor: '#F5F0E7',
+                    displayMode: 'regions', 
+                    enableRegionInteractivity: 'true', 
+                    resolution: 'countries',
+                    sizeAxis: {minValue: 1, maxValue:1,minSize:10,  maxSize: 10},
+                    region:'world',
+                    keepAspectRatio: true,
+                    
+                    tooltip: {textStyle: {color: '#444444'}, trigger:'focus'}	
+                };
+                var chart = new google.visualization.GeoChart(document.getElementById('visualization')); 
+                chart.draw(data, options);
+            }
+        </script>
+        <div id='visualization' style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;"></div>
+    </body>
+</html>

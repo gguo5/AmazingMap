@@ -7,6 +7,7 @@
         <script type="text/javascript" src="http://www.google.com/jsapi"></script>
         <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
 
         <!-- Le styles -->
         <link href="css/bootstrap.css" rel="stylesheet">
@@ -18,10 +19,24 @@
                 <![endif]-->
 
                 <script type="text/javascript">
+                    $.ajax({
+                        'url' : 'countries_test.json',
+                        dataType: 'json',
+                        success: function(json){
+                           
+                            ul = $("<ul>");  
+                            $.each(json, function(key, country){            
+                                ul.append("<li>"+country.name+"<button onclick='addToChart(\""+ country["alpha-2"]+"\",\""+country.name+ "\")' class=\"button\">&#43;</button>"+
+                                    "<button onclick='removeFromChart(\""+ country["alpha-2"]+"\");' class=\"button\">&#45;</button></li>");
+                            });
+                            $("#result").append(ul); 
+                        }
+                    });
+                    
+                    
+                    
                     google.load('visualization', '1', {packages: ['geochart']});
                     google.setOnLoadCallback(drawVisualization);
-
-
 
                     var data;
                     var geochart;
@@ -29,7 +44,21 @@
                     function drawVisualization() {
                         $("#info").draggable();
                 
-                        data = google.visualization.arrayToDataTable([
+                        data = new google.visualization.DataTable();
+
+                        data.addColumn('string', 'Country');
+                        data.addColumn('number', 'Value'); 
+                        data.addColumn({type:'string', role:'tooltip'});
+                        //data.addColumn({type:'string', role:'tooltip',p:{html:true}});
+                        
+                        
+                        
+                        data.addRows([[{v:'AU',f:'Australia'},0,'Lived']]);                   
+                        data.addRows([[{v:'CN',f:'China'},1,'Lived']]);
+                        data.addRows([[{v:'MY',f:'Malaysia'},2,'Traveled to']]);
+                       
+                        
+                        data1_dummy = google.visualization.arrayToDataTable([
                             ['Country', 'Time Visited'],
                             ['China',1987],
                             ['Australia', 2010],
@@ -38,7 +67,7 @@
                             ['Cambodia',2014]
                         ]);
                                                             
-                        data.addRow(["France",2005]);
+                        //data.addRow(["France",2005]);
                         //var data = new google.visualization.DataTable();
                         //data.addColumn('string', 'Country');
                         //data.addColumn('number', 'VY');
@@ -66,19 +95,19 @@
                         
                         var container = document.getElementById('visualization');
                         geochart = new google.visualization.GeoChart(container);
-                        
-    
+                       
                         options = {};
                         options['backgroundColor']= '#96CBD7';//78cabf
-                        var colorAxis =  {minValue: 1987, colors: ['#FF9933', '#66FF66','#0066FF','#CC0000','#996600']};
-                
+                        var colorAxis = {minValue: 0, maxValue: 5,  colors: ['#438094','#FF9933','#0066FF','#438094','#438094']};                 
+                        //var colorAxis =  {minValue: 1987, colors: ['#FF9933', '#66FF66','#0066FF','#CC0000','#996600']};
+       
                         options['colorAxis']= colorAxis;
                         options['datalessRegionColor']= 'silver';
                 
                         //var legend = {numberFormat: '####', textStyle: {color: 'blue',fontName: 'Verdana', fontSize: 16}};
                         options['legend']= 'none';//hide the colorAxis set to 'none'
                 
-                        var tooltip = {textStyle: {color: '#008080'}, showColorCode: true};
+                        var tooltip = {textStyle: {color: '#008080'}, showColorCode: false};
                         options['tooltip']= tooltip;
                 
                 
@@ -95,10 +124,27 @@
                             if(typeof selection[0] !== "undefined") {
                                 var country = data.getValue(selection[0].row, 0);
                                 var year = data.getValue(selection[0].row, 1);
-                                //alert('Country is: ' + country+", and visited in "+year);
-                                $("#country").html(country);
-                                $("#year").html(year);
-                                $("#info").show();
+                              
+                                
+                                if($('#info').css('display') == 'none')
+                                {  
+                                    //alert('Country is: ' + country+", and visited in "+year);
+                                    $("#country").html(country);
+                                    $("#year").html(year);
+                                    $("#info").show();
+                                }
+                                else if ($("#country").html() != country)
+                                {
+                                    $("#country").html(country);
+                                    $("#year").html(year);
+                                }
+                                else
+                                {
+                                    $("#info").hide();   
+                                }
+                                
+                                
+                                
                             }
                         }//end of my click handler
             
@@ -129,16 +175,15 @@
     
                     }//end of draw chart
                     
-                    function addToChart(country) {
-                        
-                        data.addRow([country,2015]);
+                    function addToChart(code, name) {
+                        data.addRows([[{v:code,f:name},data.getNumberOfRows(),'Traveled to']]);  
                         geochart.draw(data,options);
                     }
                     
-                    function removeFromChart(country) {
+                    function removeFromChart(code) {
                         
-                        var foundRows = data.getFilteredRows([{column: 0, value: country}]);
-                        console.log("Type foundRows" + foundRows[0]);
+                        var foundRows = data.getFilteredRows([{column: 0, value: code}]);
+                        //console.log("Type foundRows" + foundRows[0]);
                         for (var i = 0, maxrows = foundRows.length; i < maxrows; i++) {
                             data.removeRow(foundRows[i]);
                             geochart.draw(data,options);
@@ -149,27 +194,20 @@
                 </head>
                 <body style="border: 0 none; overflow: hidden">
                     <div class="wrapper">
-
-
                         <div id="mapcontainer">
                             <div id="visualization" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;"></div>
-                            <div id="info" class="alert" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: #f71234; display: none">
-                                <button class="close">&times;</button>
+                            <div id="info" class="alert alert-warning" style="position: absolute; top: 200px; left: 100px; z-index: 1; background-color: #0066FF; display: none">
                                 <span id="country"></span><br />
                                 <span id="year"></span>
-
                             </div>
-
                         </div>
-
                     </div>
 
                     <div class="footer">
                         <p class="muted credit">&copy; AmazingMap 2013</p>
 
                     </div>
-                    <script src="js/bootstrap.min.js"></script>
-                    <button onclick='addToChart("Brazil");' class="button">add</button>
-                    <button onclick='removeFromChart("Brazil");' class="button">remove</button>
+                    <div id="result"></div>
+
                 </body>
                 </html>
